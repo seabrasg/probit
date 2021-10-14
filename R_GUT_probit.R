@@ -6,6 +6,7 @@ require(dplyr)
 require(ggplot2)
 require(aod)
 require(lmtest)
+require(lsmeans)
 
 setwd("/Users/seabrasg/Dropbox/0_Coenosia_GUT/Submission_Github")
 m=read.table("./matrix_GUT_detection_time.csv",header=TRUE,sep=",")
@@ -699,3 +700,643 @@ f.plot_2PCR("Dmrc")
 dev.off()
 
 
+##################################################################
+# PCR primer sets comparisons
+##################################################################
+sink(file="./output_probit_R_comparison_PCR.txt", append=TRUE, type="output")
+
+print("#################################################################################################")
+
+print("Tva PCR1 vs PCR2 vs PCR3")
+
+pcr<-m[which((m$Prey=="Tva" & m$PCR=="PCR1") | (m$Prey=="Tva" & m$PCR=="PCR2") | (m$Prey=="Tva" & m$PCR=="PCR3")),]
+summary(pcr)
+
+print("Fit separate lines for each PCR1, 2 and 3 (mod1) ############################") 
+
+mod1=glm(Detection ~ PCR + PCR:Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ PCR + Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+
+print("#################################################################################################")
+
+print("Bim PCR1 vs PCR2")
+
+pcr<-m[which((m$Prey=="Bim" & m$PCR=="PCR1") | (m$Prey=="Bim" & m$PCR=="PCR2")),]
+summary(pcr)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ PCR + PCR:Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ PCR + Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+
+print("#################################################################################################")
+
+print("Lhu PCR1 vs PCR2")
+
+pcr<-m[which((m$Prey=="Lhu" & m$PCR=="PCR1") | (m$Prey=="Lhu" & m$PCR=="PCR2")),]
+summary(pcr)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ PCR + PCR:Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ PCR + Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+
+print("Dmrc PCR1 vs PCR2")
+
+pcr<-m[which((m$Prey=="Dmrc" & m$PCR=="PCR1") | (m$Prey=="Dmrc" & m$PCR=="PCR2")),]
+summary(pcr)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ PCR + PCR:Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ PCR + Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("Dis PCR1 vs PCR2")
+
+pcr<-m[which((m$Prey=="Dis" & m$PCR=="PCR1") | (m$Prey=="Dis" & m$PCR=="PCR2")),]
+summary(pcr)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ PCR + PCR:Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ PCR + Time, family = binomial(link = "probit"), 
+         data = pcr)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+
+#################################################
+################################################
+
+
+sink()
+
+#####################################################
+# Species comparisons
+####################################################
+
+sink(file="./output_probit_R_comparison_species.txt", append=TRUE, type="output")
+
+print("#################################################################################################")
+
+print("m$Prey=='Bim' | m$Prey=='Lhu'")
+
+# A specification of the form first:second indicates the set of terms obtained by taking the interactions of all terms in first with all terms in second
+# A terms specification of the form first + second indicates all the terms in first together with all the terms in second with any duplicates removed
+prey<-m[which((m$Prey=="Bim" | m$Prey=="Lhu") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+anova(mod2, mod1, test = "Chisq")
+
+print("#################################################################################################")
+
+print("m$Prey=='Bim' | m$Prey=='Dmrc'")
+
+prey<-m[which((m$Prey=="Bim" | m$Prey=="Dmrc") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("m$Prey=='Bim' | m$Prey=='Dis'")
+
+prey<-m[which((m$Prey=="Bim" | m$Prey=="Dis") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("m$Prey=='Bim' | m$Prey=='Tva'")
+
+prey<-m[which((m$Prey=="Bim" | m$Prey=="Tva") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("m$Prey=='Lhu' | m$Prey=='Dmrc'")
+
+prey<-m[which((m$Prey=="Lhu" | m$Prey=="Dmrc") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("m$Prey=='Lhu' | m$Prey=='Dis'")
+
+prey<-m[which((m$Prey=="Lhu" | m$Prey=="Dis") & m$PCR=="PCR2"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("m$Prey=='Lhu' | m$Prey=='Tva'")
+
+prey<-m[which((m$Prey=="Lhu" | m$Prey=="Tva") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("m$Prey=='Dmrc' | m$Prey=='Dis'")
+
+prey<-m[which((m$Prey=="Dmrc" | m$Prey=="Dis") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("m$Prey=='Dmrc' | m$Prey=='Tva'")
+
+prey<-m[which((m$Prey=="Dmrc" | m$Prey=="Tva") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+print("#################################################################################################")
+print("m$Prey=='Dis' | m$Prey=='Tva'")
+
+prey<-m[which((m$Prey=="Dis" | m$Prey=="Tva") & m$PCR=="PCR1"),]
+summary(prey)
+
+print("Fit separate lines (mod1) ############################") 
+
+mod1=glm(Detection ~ Prey + Prey:Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod1))
+
+het=mod1$deviance/mod1$df.residual #heterogeneity factor
+
+print("Heterogeneity factor= mod1$deviance/mod1$df.residual")
+print(het)
+print("#####")
+print("#####")
+print("#####")
+print("Test hypothesis of parallel lines (mod2) ############################") 
+
+mod2=glm(Detection ~ Prey + Time, family = binomial(link = "probit"), 
+         data = prey)
+print(summary(mod2))
+
+df1=mod1$df.residual
+df2=mod2$df.residual
+tstat=(mod2$deviance-mod1$deviance)/(het*(df2-df1))
+testp=1-pf(tstat,df2-df1,df1)
+print("df1=mod1$df.residual")
+print("df2=mod2$df.residual")
+print("Test deviance")
+print("tstat= (mod2$deviance-mod1$deviance)/(het*(df2-df1))")
+print(tstat)
+print("df2-df1")
+print(df2-df1)
+print("df1")
+print(df1)
+print("Pvalue=1-pf(tstat,df2-df1,df1)")
+print(testp)
+
+#################################################
+
+sink()
